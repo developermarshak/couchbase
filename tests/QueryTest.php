@@ -63,7 +63,7 @@ class QueryTest extends TestCase
     public function testWhereNotIn()
     {
         $users = User::whereNotIn('age', [13, 23, 37, 33])->get();
-        $this->assertEquals(3, count($users));
+        $this->assertEquals(4, count($users));
     }
 
     public function testBetween()
