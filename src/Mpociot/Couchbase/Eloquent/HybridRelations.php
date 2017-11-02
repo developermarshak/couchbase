@@ -210,7 +210,7 @@ trait HybridRelations
      * Define a many-to-many relationship.
      *
      * @param  string  $related
-     * @param  string  $table
+     * @param  string  $collection
      * @param  string  $foreignPivotKey
      * @param  string  $relatedPivotKey
      * @param  string  $parentKey
@@ -218,7 +218,7 @@ trait HybridRelations
      * @param  string  $relation
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function belongsToMany($related, $table = null, $foreignPivotKey = null, $relatedPivotKey = null,
+    public function belongsToMany($related, $collection = null, $foreignPivotKey = null, $relatedPivotKey = null,
         $parentKey = null, $relatedKey = null, $relation = null)
     {
         // If no relationship name was passed, we will pull backtraces to get the
@@ -240,12 +240,12 @@ trait HybridRelations
         // If no table name was provided, we can guess it by concatenating the two
         // models using underscores in alphabetical order. The two model names
         // are transformed to snake case from their default CamelCase also.
-        if (is_null($table)) {
-            $table = $this->joiningTable($related);
+        if (is_null($collection)) {
+            $collection = $instance->getTable();
         }
 
         return new BelongsToMany(
-            $instance->newQuery(), $this, $table, $foreignPivotKey,
+            $instance->newQuery(), $this, $collection, $foreignPivotKey,
             $relatedPivotKey, $parentKey ?: $this->getKeyName(),
             $relatedKey ?: $instance->getKeyName(), $relation
         );
