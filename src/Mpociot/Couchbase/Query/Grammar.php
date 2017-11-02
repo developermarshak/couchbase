@@ -206,8 +206,8 @@ class Grammar extends BaseGrammar
      */
     protected function wrapValue($value)
     {
-        if ($value === '*') {
-            return $value;
+        if(strpos($value, "-") !== false){
+            $value = "`".$value."`";
         }
 
         return $value;

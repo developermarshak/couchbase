@@ -1,6 +1,7 @@
 <?php namespace Mpociot\Couchbase;
 
-use Couchbase\N1qlQuery;
+use Couchbase\ClassicAuthenticator;
+use Couchbase\Cluster;
 use CouchbaseBucket;
 use CouchbaseCluster;
 use CouchbaseN1qlQuery;
@@ -42,15 +43,18 @@ class Connection extends \Illuminate\Database\Connection
     {
         $this->config = $config;
 
-        // Build the connection string
+        //Build the connection string
         $dsn = $this->getDsn($config);
 
-        // Create the connection
-        $this->connection = $this->createConnection($dsn, $config);
+        $this->connection = new Cluster($dsn);
+
+        $auth = new ClassicAuthenticator();
+        $auth->cluster($config["user"], $config["password"]);
 
         // Select database
         $this->bucketname = $config['bucket'];
-        $this->bucket = $this->connection->openBucket($this->bucketname);
+
+        $this->bucket = $this->connection->openBucket($this->bucketname);//, $password);
 
         $this->useDefaultQueryGrammar();
 
