@@ -233,9 +233,9 @@ trait HybridRelations
         // instances as well as the relationship instances we need for this.
         $instance = $this->newRelatedInstance($related);
 
-        $foreignPivotKey = $foreignPivotKey ?: $this->getForeignKey();
+        $foreignPivotKey = $foreignPivotKey ?: $this->getForeignKey() . 's';
 
-        $relatedPivotKey = $relatedPivotKey ?: $instance->getForeignKey();
+        $relatedPivotKey = $relatedPivotKey ?: $instance->getForeignKey() . 's';
 
         // If no table name was provided, we can guess it by concatenating the two
         // models using underscores in alphabetical order. The two model names
