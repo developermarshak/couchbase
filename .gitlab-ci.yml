@@ -16,4 +16,5 @@ test phpunit:
 
 
 couchbase:
+  stage: couchbase
   image: registry.conci.info/conci/image/couchbase
