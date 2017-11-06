@@ -11,6 +11,7 @@ test phpunit:
   stage: test
   image: registry.conci.info/conci/image/base:master
   script:
+    - yum install wget
     - wget http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-x86_64.rpm
     - rpm -iv couchbase-release-1.0-2-x86_64.rpm
     - yum install libcouchbase-devel gcc gcc-c++ php-devel zlib-devel
