@@ -2,7 +2,7 @@ image: docker:latest
 
 services:
   - docker:dind
-  - couchbase
+  - registry.conci.info/conci/image/couchbase:master
 
 stages:
   - test
@@ -13,9 +13,3 @@ test phpunit:
   script:
     - composer install --no-suggest --no-progress
     - php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text --colors=never
-
-
-couchbase:
-  image: registry.conci.info/conci/image/couchbase
-  script:
-    - bash
