@@ -2,6 +2,7 @@ image: docker:latest
 
 services:
   - docker:dind
+  - couchbase
 
 stages:
   - test
@@ -15,5 +16,6 @@ test phpunit:
 
 
 couchbase:
-  stage: couchbase
   image: registry.conci.info/conci/image/couchbase
+  script:
+    - bash
