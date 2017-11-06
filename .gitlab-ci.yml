@@ -9,7 +9,7 @@ stages:
 
 test phpunit:
   stage: test
-  image: registry.conci.info/jobsy/backend/main:master
+  image: registry.conci.info/jobsy/backend/base:master
   script:
     - composer install --no-suggest --no-progress
     - php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text --colors=never
