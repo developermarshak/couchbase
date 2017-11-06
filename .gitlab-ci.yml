@@ -2,7 +2,6 @@ image: docker:latest
 
 services:
   - docker:dind
-  - couchbase
 
 stages:
   - test
