@@ -12,5 +12,4 @@ test phpunit:
   image: registry.conci.info/conci/image/base:master
   script:
     - composer install --no-suggest --no-progress
-    - php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text --colors=never
     - php -m
