@@ -9,8 +9,7 @@ stages:
 
 test phpunit:
   stage: test
-  image: registry.conci.info/conci/image/base:master
+  image: registry.conci.info/conci/image/fpm:master
   script:
     - composer install --no-suggest --no-progress
-    - echo "extension=pdo.so" > php.ini
     - php -m
