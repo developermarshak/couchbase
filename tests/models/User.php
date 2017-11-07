@@ -18,11 +18,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
         return $this->hasMany('Book', 'author_id');
     }
 
-    public function mysqlBooks()
-    {
-        return $this->hasMany('MysqlBook', 'author_id');
-    }
-
     public function items()
     {
         return $this->hasMany('Item');
@@ -31,11 +26,6 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
     public function role()
     {
         return $this->hasOne('Role');
-    }
-
-    public function mysqlRole()
-    {
-        return $this->hasOne('MysqlRole');
     }
 
     public function clients()
