@@ -9,7 +9,7 @@ return [
             'host'       => 'couchbase',
             'bucket'     => 'testbucket',
             'user'       => 'conci',
-            'password'   => 'devtest',
+            'password'   => 'devpass',
             'n1ql_hosts' => ['http://couchbase:8093']
         ]
     ]
