@@ -2,7 +2,8 @@ image: docker:latest
 
 services:
   - docker:dind
-  - registry.conci.info/conci/image/couchbase:master
+  - name: registry.conci.info/conci/image/couchbase:master
+    alias: couchbase
 
 stages:
   - test
