@@ -80,7 +80,13 @@ class Connection extends \Illuminate\Database\Connection
      */
     public function getBucketName()
     {
-        return $this->bucketname;
+        $bucketName = $this->bucketname;
+
+        if(strpos($bucketName, "-") !== false){
+            $bucketName = "`".$bucketName."`";
+        }
+
+        return $bucketName;
     }
 
     /**
