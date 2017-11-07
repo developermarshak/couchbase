@@ -4,7 +4,8 @@ services:
   - docker:dind
   - name: registry.conci.info/conci/image/couchbase:master
     alias: couchbase
-    script: couchbase-cli bucket-create -c localhost:8091 -u conci -p devpass \
+    script:
+      - couchbase-cli bucket-create -c localhost:8091 -u conci -p devpass \
                    --bucket=test-bucket \
                    --bucket-type=couchbase \
                    --bucket-port=11222 \
