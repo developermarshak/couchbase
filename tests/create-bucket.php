@@ -1,6 +1,6 @@
 <?php
 
-$config = require "./config/database.php";
+$config = require __DIR__."/config/database.php";
 
 $couchbase = $config['connections']['couchbase'];
 $connection = new Couchbase\Cluster($couchbase['host']);
