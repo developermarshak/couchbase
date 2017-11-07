@@ -32,6 +32,7 @@ class TestCase extends Orchestra\Testbench\TestCase
         $app['config']->set('app.key', 'ZsZewWyUJ5FsKp9lMwv4tYbNlegQilM7');
 
         $app['config']->set('database.default', 'couchbase');
+        $app['config']->set('database.connections.couchbase', $config['connections']['couchbase']);
 
         $app['config']->set('auth.model', 'User');
         $app['config']->set('auth.providers.users.model', 'User');
