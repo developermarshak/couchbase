@@ -1,0 +1,16 @@
+image: docker:latest
+
+services:
+  - docker:dind
+  - registry.conci.info/conci/image/couchbase:master
+
+stages:
+  - test
+
+test phpunit:
+  stage: test
+  image: registry.conci.info/conci/image/fpm:master
+  script:
+    - composer install --no-suggest --no-progress
+    - php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text --colors=never
+
