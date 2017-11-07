@@ -12,6 +12,7 @@ test phpunit:
   stage: test
   image: registry.conci.info/conci/image/fpm:master
   script:
+    - ping couchbase
     - composer install --no-suggest --no-progress
     - php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text --colors=never
 
