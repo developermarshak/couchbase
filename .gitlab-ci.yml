@@ -12,4 +12,5 @@ test phpunit:
   image: registry.conci.info/conci/image/base:master
   script:
     - composer install --no-suggest --no-progress
+    - echo "extension=pdo.so" > php.ini
     - php -m
