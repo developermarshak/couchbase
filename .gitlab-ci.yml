@@ -18,8 +18,9 @@ stages:
 
 test phpunit:
   stage: test
-  image: registry.conci.info/conci/image/fpm:master
+  image: registry.conci.info/conci/image/base:master
   script:
     - composer install --no-suggest --no-progress
+    - php ./tests/create-bucket.php
     - php -dzend_extension=xdebug.so ./vendor/bin/phpunit --coverage-text --colors=never
 
