@@ -1,9 +1,7 @@
 <?php
 
 return [
-
     'connections' => [
-
         'couchbase' => [
             'name'       => 'couchbase',
             'driver'     => 'couchbase',
@@ -14,6 +12,5 @@ return [
             'password'   => 'devtest',
             'n1ql_hosts' => ['http://couchbase:8093']
         ]
-    ],
-
+    ]
 ];
