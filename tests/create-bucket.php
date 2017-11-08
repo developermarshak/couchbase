@@ -1,12 +1,9 @@
 <?php
-
 $config = require __DIR__."/config/database.php";
 
 $couchbase = $config['connections']['couchbase'];
-$connection = new Couchbase\Cluster("couchbase://".$couchbase['host'].":".$couchbase['port']);
+$cluster = new Couchbase\Cluster("couchbase://172.26.0.3:8091");
 
-$auth = new \Couchbase\ClassicAuthenticator();
-$auth->cluster($couchbase["user"], $couchbase["password"]);
+$manager = $cluster->manager("conci", "devpass");
 
-
-$connection->manager($couchbase["user"], $couchbase["password"]);
+$manager->createBucket("test-bucket");
