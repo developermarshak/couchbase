@@ -23,7 +23,9 @@ class CreateBucketHelper{
     }
 
     protected function connection(){
-        return new Couchbase\Cluster("couchbase://".$this->config["host"].":".$this->config["port"]);
+        $cluster = new Couchbase\Cluster("couchbase://".$this->config["host"].":".$this->config["port"]);
+        $cluster->authenticateAs($this->config["user"], $this->config["password"]);
+        return $cluster;
     }
 
     protected function createBucket(){
