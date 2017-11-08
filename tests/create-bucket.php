@@ -24,7 +24,12 @@ class CreateBucketHelper{
 
     protected function connection(){
         $cluster = new Couchbase\Cluster("couchbase://".$this->config["host"].":".$this->config["port"]);
-        $cluster->authenticateAs($this->config["user"], $this->config["password"]);
+
+        $auth = new CouchbaseAuthenticator();
+        $auth->cluster($this->config["user"], $this->config["password"]);
+
+        $cluster->authenticate($auth);
+
         return $cluster;
     }
 
@@ -35,6 +40,7 @@ class CreateBucketHelper{
 
     protected function createPrimaryIndex(){
         $bucket = $this->cluster->openBucket($this->bucketName);
+
         $bucket->manager()->createN1qlPrimaryIndex($this->bucketName."-primary-index");
     }
 }
