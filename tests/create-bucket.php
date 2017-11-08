@@ -39,9 +39,15 @@ class CreateBucketHelper{
     }
 
     protected function createPrimaryIndex(){
-        $bucket = $this->cluster->openBucket($this->bucketName);
-
-        $bucket->manager()->createN1qlPrimaryIndex($this->bucketName."-primary-index");
+        try{
+            $bucket = $this->cluster->openBucket($this->bucketName);
+            $bucket->manager()->createN1qlPrimaryIndex($this->bucketName."-primary-index");
+        }
+        catch (\Couchbase\Exception $e){
+            sleep(1);
+            echo "Exception!!";
+            $this->init();
+        }
     }
 }
 
