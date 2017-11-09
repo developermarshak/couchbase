@@ -74,7 +74,25 @@ class CreateBucketHelper{
 
     protected function createPrimaryIndex(){
         $bucket = $this->cluster->openBucket($this->bucketName);
-        $bucket->manager()->createN1qlPrimaryIndex($this->bucketName."-primary-index");
+
+        $waitTime = 0;
+        while(true){
+            try {
+                $bucket->manager()->createN1qlPrimaryIndex($this->bucketName . "-primary-index");
+                break;
+            }
+            catch (Exception $e){
+                $waitTime++;
+                sleep(1);
+                echo "Catch: ".$waitTime."\n";
+
+                if($waitTime > static::LIMIT_SLEEP_TIME){
+                    throw new Exception("Now work create primary index, wait time: ".$waitTime." seconds");
+                }
+
+            }
+        }
+
     }
 }
 
