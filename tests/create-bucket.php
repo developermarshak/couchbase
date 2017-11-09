@@ -78,5 +78,4 @@ class CreateBucketHelper{
 }
 
 $helper = new CreateBucketHelper();
-$helper->reset();
 $helper->init();
