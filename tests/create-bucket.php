@@ -22,6 +22,10 @@ class CreateBucketHelper{
         $this->createPrimaryIndex();
     }
 
+    function reset(){
+        $this->cluster = $this->connection();
+        $this->removeBucket();
+    }
     protected function connection(){
         $cluster = new Couchbase\Cluster("couchbase://".$this->config["host"].":".$this->config["port"]);
 
@@ -36,18 +40,21 @@ class CreateBucketHelper{
     protected function createBucket(){
         $manager = $this->cluster->manager($this->config["user"], $this->config["password"]);
         $manager->createBucket($this->bucketName);
+
+        //Wait while getting up bucket
+        while(!isset($manager->listBuckets()[0]) || $manager->listBuckets()[0]['nodes'][0]['status'] != "healthy"){
+            sleep(1);
+        }
+    }
+
+    protected function removeBucket(){
+        $manager = $this->cluster->manager($this->config["user"], $this->config["password"]);
+        $manager->removeBucket($this->bucketName);
     }
 
     protected function createPrimaryIndex(){
-        try{
-            $bucket = $this->cluster->openBucket($this->bucketName);
-            $bucket->manager()->createN1qlPrimaryIndex($this->bucketName."-primary-index");
-        }
-        catch (\Couchbase\Exception $e){
-            sleep(1);
-            echo "Exception!!";
-            $this->init();
-        }
+        $bucket = $this->cluster->openBucket($this->bucketName);
+        $bucket->manager()->createN1qlPrimaryIndex($this->bucketName."-primary-index");
     }
 }
 
