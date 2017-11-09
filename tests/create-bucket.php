@@ -53,6 +53,7 @@ class CreateBucketHelper{
     }
 
     protected function createPrimaryIndex(){
+        sleep(20);
         $bucket = $this->cluster->openBucket($this->bucketName);
         $bucket->manager()->createN1qlPrimaryIndex($this->bucketName."-primary-index");
     }
