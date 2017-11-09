@@ -62,6 +62,7 @@ class CreateBucketHelper{
                     continue 2;
                 }
             }
+            sleep(1);
             return ;
         }
     }
