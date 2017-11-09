@@ -44,15 +44,25 @@ class CreateBucketHelper{
 
         $sleepTime = 0;
         //Wait while set up bucket
-        while(!isset($manager->listBuckets()[0])
-            || $manager->listBuckets()[0]['nodes'][0]['status'] != "healthy"
-            || count($manager->listBuckets()[0]['vBucketServerMap']['vBucketMap']) == 0){
+        while(true){
+            $bucketInfo = $manager->listBuckets()[0];
+
             sleep(1);
+
             $sleepTime++;
+
             echo "Wait bucket: ".$sleepTime."\n";
+
             if($sleepTime > static::LIMIT_SLEEP_TIME){
                 throw new Exception("Not set up bucket after: ".$sleepTime." seconds");
             }
+
+            foreach($bucketInfo['nodes'] as $nodeInfo){
+                if($nodeInfo['status'] != "healthy"){
+                    continue 2;
+                }
+            }
+            return ;
         }
     }
 
@@ -68,4 +78,5 @@ class CreateBucketHelper{
 }
 
 $helper = new CreateBucketHelper();
+$helper->reset();
 $helper->init();
