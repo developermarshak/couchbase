@@ -45,8 +45,6 @@ class CreateBucketHelper{
         $sleepTime = 0;
         //Wait while set up bucket
         while(true){
-            $bucketInfo = $manager->listBuckets()[0];
-
             sleep(1);
 
             $sleepTime++;
@@ -56,6 +54,8 @@ class CreateBucketHelper{
             if($sleepTime > static::LIMIT_SLEEP_TIME){
                 throw new Exception("Not set up bucket after: ".$sleepTime." seconds");
             }
+
+            $bucketInfo = $manager->listBuckets()[0];
 
             foreach($bucketInfo['nodes'] as $nodeInfo){
                 if($nodeInfo['status'] != "healthy"){
