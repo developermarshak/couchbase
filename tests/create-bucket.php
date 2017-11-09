@@ -4,6 +4,7 @@ class CreateBucketHelper{
     protected $bucketName;
     protected $config;
 
+    const LIMIT_SLEEP_TIME = 60;
     /**
      * @var Couchbase\Cluster
      */
@@ -41,9 +42,17 @@ class CreateBucketHelper{
         $manager = $this->cluster->manager($this->config["user"], $this->config["password"]);
         $manager->createBucket($this->bucketName);
 
-        //Wait while getting up bucket
-        while(!isset($manager->listBuckets()[0]) || $manager->listBuckets()[0]['nodes'][0]['status'] != "healthy"){
+        $sleepTime = 0;
+        //Wait while set up bucket
+        while(!isset($manager->listBuckets()[0])
+            || $manager->listBuckets()[0]['nodes'][0]['status'] != "healthy"
+            || count($manager->listBuckets()[0]['vBucketServerMap']['vBucketMap']) == 0){
             sleep(1);
+            $sleepTime++;
+            echo "Wait bucket: ".$sleepTime."\n";
+            if($sleepTime > static::LIMIT_SLEEP_TIME){
+                throw new Exception("Not set up bucket after: ".$sleepTime." seconds");
+            }
         }
     }
 
@@ -53,7 +62,6 @@ class CreateBucketHelper{
     }
 
     protected function createPrimaryIndex(){
-        sleep(20);
         $bucket = $this->cluster->openBucket($this->bucketName);
         $bucket->manager()->createN1qlPrimaryIndex($this->bucketName."-primary-index");
     }
