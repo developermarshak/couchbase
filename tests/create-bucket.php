@@ -73,8 +73,6 @@ class CreateBucketHelper{
 
     protected function createPrimaryIndex(){
         $bucket = $this->cluster->openBucket($this->bucketName);
-        echo "Bucket info: \n";
-        var_dump($bucket->manager()->info());
         $bucket->manager()->createN1qlPrimaryIndex($this->bucketName."-primary-index");
     }
 }
