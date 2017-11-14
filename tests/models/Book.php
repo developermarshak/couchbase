@@ -12,9 +12,4 @@ class Book extends Eloquent
     {
         return $this->belongsTo( User::class, 'author_id');
     }
-
-    public function mysqlAuthor()
-    {
-        return $this->belongsTo('MysqlUser', 'author_id');
-    }
 }

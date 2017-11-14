@@ -206,10 +206,6 @@ class Grammar extends BaseGrammar
      */
     protected function wrapValue($value)
     {
-        if(strpos($value, "-") !== false){
-            $value = "`".$value."`";
-        }
-
         return $value;
     }
 
