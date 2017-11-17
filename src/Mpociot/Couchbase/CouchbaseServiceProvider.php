@@ -25,6 +25,11 @@ class CouchbaseServiceProvider extends ServiceProvider
             $connectionName = config('database.connections.'.config('database.default'));
             return new Connection($connectionName);
         });
+
+        Connection::resolverFor('couchbase', function ($config) {
+            return app('couchbase.connection');
+        });
+
         $this->app->resolving('db', function ($db) {
             $db->extend('couchbase', function ($config) {
                 return app('couchbase.connection');
