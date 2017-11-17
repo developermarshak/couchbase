@@ -3,7 +3,7 @@
 use Illuminate\Support\ServiceProvider;
 use Mpociot\Couchbase\Eloquent\Model;
 use Mpociot\Couchbase\Connection as CouchbaseConnection;
-use Illuminate\Database\Connection as IlluminateConnetion;
+use Illuminate\Database\Connection as IlluminateConnection;
 
 class CouchbaseServiceProvider extends ServiceProvider
 {
@@ -28,7 +28,7 @@ class CouchbaseServiceProvider extends ServiceProvider
             return new CouchbaseConnection($connectionName);
         });
 
-        IlluminateConnetion::resolverFor('couchbase', function ($config) {
+        IlluminateConnection::resolverFor('couchbase', function ($config) {
             return app('couchbase.connection');
         });
 
