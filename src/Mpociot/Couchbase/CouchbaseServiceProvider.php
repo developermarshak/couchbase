@@ -1,6 +1,7 @@
 <?php namespace Mpociot\Couchbase;
 
 use Illuminate\Support\ServiceProvider;
+use Mpociot\Couchbase\Eloquent\Model;
 use \Illuminate\Database\Connection;
 
 class CouchbaseServiceProvider extends ServiceProvider
