@@ -17,6 +17,8 @@ class ModelTest extends TestCase
         $this->assertInstanceOf('Mpociot\Couchbase\Connection', $user->getConnection());
         $this->assertEquals(false, $user->exists);
         $this->assertEquals('users', $user->getTable());
+        $this->assertEquals('users', $user->getCollectionName());
+        $this->assertInstanceOf(\Mpociot\Couchbase\Eloquent\Builder::class, $user->getCollection());
         $this->assertEquals('_id', $user->getKeyName());
     }
 

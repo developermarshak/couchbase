@@ -156,7 +156,31 @@ abstract class Model extends BaseModel
      */
     public function getTable()
     {
+        if ($this->collection) {
+            return $this->collection;
+        }
+
         return $this->table ?: parent::getTable();
+    }
+
+    /**
+     * Get the collection associated with the model.
+     *
+     * @return string
+     */
+    public function getCollectionName()
+    {
+        return $this->getTable();
+    }
+
+    /**
+     * Get the collection associated with the model.
+     *
+     * @return string
+     */
+    public function getCollection()
+    {
+        return $this->newQuery();
     }
 
     /**

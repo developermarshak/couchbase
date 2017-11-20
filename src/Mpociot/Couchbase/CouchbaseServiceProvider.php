@@ -2,6 +2,8 @@
 
 use Illuminate\Support\ServiceProvider;
 use Mpociot\Couchbase\Eloquent\Model;
+use Mpociot\Couchbase\Connection as CouchbaseConnection;
+use Illuminate\Database\Connection as IlluminateConnection;
 
 class CouchbaseServiceProvider extends ServiceProvider
 {
@@ -22,9 +24,14 @@ class CouchbaseServiceProvider extends ServiceProvider
     {
         // Add database driver.
         $this->app->singleton('couchbase.connection', function($app){
-            $connectionName = config('database.connections.'.config('database.default'));
-            return new Connection($connectionName);
+            $connectionName = config('database.connections.couchbase');
+            return new CouchbaseConnection($connectionName);
         });
+
+        IlluminateConnection::resolverFor('couchbase', function ($config) {
+            return app('couchbase.connection');
+        });
+
         $this->app->resolving('db', function ($db) {
             $db->extend('couchbase', function ($config) {
                 return app('couchbase.connection');
