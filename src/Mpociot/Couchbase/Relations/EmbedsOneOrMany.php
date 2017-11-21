@@ -97,16 +97,6 @@ abstract class EmbedsOneOrMany extends Relation
     }
 
     /**
-     * Shorthand to get the results of the relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function get()
-    {
-        return $this->getResults();
-    }
-
-    /**
      * Get the number of embedded models.
      *
      * @return int
@@ -268,7 +258,9 @@ abstract class EmbedsOneOrMany extends Relation
         $models = [];
 
         foreach ($records as $attributes) {
-            $models[] = $this->toModel($attributes);
+            $model = $this->toModel($attributes);
+            $model->setConnection($this->parent->getConnectionName());
+            $models[] = $model;
         }
 
         if (count($models) > 0) {
