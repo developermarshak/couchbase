@@ -21,6 +21,8 @@ class RelationsTest extends TestCase
     }
     
     /**
+     * Test has many
+     *
      * @group RelationsTest
      */
     public function testHasMany()
@@ -43,6 +45,8 @@ class RelationsTest extends TestCase
     }
     
     /**
+     * Test belongs to
+     *
      * @group RelationsTest
      * @group testBelongsTo
      */
@@ -67,6 +71,8 @@ class RelationsTest extends TestCase
     }
     
     /**
+     * Test has one
+     *
      * @group RelationsTest
      */
     public function testHasOne()
@@ -93,6 +99,8 @@ class RelationsTest extends TestCase
     }
     
     /**
+     * Test with belongs to
+     *
      * @group RelationsTest
      */
     public function testWithBelongsTo()
@@ -113,6 +121,8 @@ class RelationsTest extends TestCase
     }
     
     /**
+     * Test with has many
+     *
      * @group RelationsTest
      */
     public function testWithHasMany()
@@ -131,6 +141,8 @@ class RelationsTest extends TestCase
     }
     
     /**
+     * Test with has one
+     *
      * @group RelationsTest
      */
     public function testWithHasOne()
@@ -147,6 +159,8 @@ class RelationsTest extends TestCase
     }
     
     /**
+     * Test easy relation
+     *
      * @group RelationsTest
      */
     public function testEasyRelation()
@@ -180,6 +194,7 @@ class RelationsTest extends TestCase
      */
     public function testBelongsToMany()
     {
+        /** @var User $user */
         $user = User::create(['name' => 'John Doe']);
 
         // Add 2 clients
@@ -388,12 +403,16 @@ class RelationsTest extends TestCase
      */
     public function testBelongsToManyCustom()
     {
+        /** @var \User $user */
         $user = User::create(['name' => 'John Doe']);
         $group = $user->groups()->create(['name' => 'Admins']);
+        var_dump($user->_id, $group->_id);
 
         // Refetch
         $user = User::find($user->_id);
         $group = Group::find($group->_id);
+
+        exit;
 
         // Check for custom relation attributes
         $this->assertTrue(array_key_exists('users', $group->getAttributes()));
@@ -424,6 +443,7 @@ class RelationsTest extends TestCase
      */
     public function testMorph()
     {
+        /** @var \User $user */
         $user = User::create(['name' => 'John Doe']);
         $client = Client::create(['name' => 'Jane Doe']);
 

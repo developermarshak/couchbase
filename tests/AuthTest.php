@@ -1,16 +1,27 @@
 <?php
 
-use Illuminate\Auth\Passwords\PasswordBroker;
-use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class AuthTest
+ * Auth test
+ */
 class AuthTest extends TestCase
 {
+    /**
+     * {@inheritdoc}
+     */
     public function tearDown()
     {
         User::truncate();
         DB::table('password_reminders')->truncate();
     }
 
+    /**
+     * Test auth attempt
+     */
     public function testAuthAttempt()
     {
         $user = User::create([
