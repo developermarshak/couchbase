@@ -406,13 +406,10 @@ class RelationsTest extends TestCase
         /** @var \User $user */
         $user = User::create(['name' => 'John Doe']);
         $group = $user->groups()->create(['name' => 'Admins']);
-        var_dump($user->_id, $group->_id);
 
         // Refetch
         $user = User::find($user->_id);
         $group = Group::find($group->_id);
-
-        exit;
 
         // Check for custom relation attributes
         $this->assertTrue(array_key_exists('users', $group->getAttributes()));
