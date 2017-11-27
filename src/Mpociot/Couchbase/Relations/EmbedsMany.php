@@ -249,6 +249,10 @@ class EmbedsMany extends EmbedsOneOrMany
             $model->setAttribute('_id', Helper::getUniqueId($model->{Helper::TYPE_NAME}));
         }
 
+        if (!$model->getConnectionName()) {
+            $model->setConnection($this->parent->getConnectionName());
+        }
+
         $records = $this->getEmbedded();
 
         // Add the new model to the embedded documents.
@@ -319,7 +323,9 @@ class EmbedsMany extends EmbedsOneOrMany
     /**
      * Set the embedded records array.
      *
-     * @param  array  $models
+     * @param array $models
+     *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     protected function setEmbedded($models)
     {

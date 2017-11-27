@@ -29,9 +29,9 @@ class CouchbaseServiceProvider extends ServiceProvider
             return new CouchbaseConnection($config);
         });
 
-//        IlluminateConnection::resolverFor('couchbase', function ($config) {
-//            return app('couchbase.connection');
-//        });
+        IlluminateConnection::resolverFor('couchbase', function ($config) {
+            return app('couchbase.connection');
+        });
 
         $this->app->resolving('db', function ($db) {
             $db->extend('couchbase', function ($config) {

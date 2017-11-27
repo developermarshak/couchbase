@@ -120,6 +120,9 @@ class EmbedsOne extends EmbedsOneOrMany
      */
     public function associate(Model $model)
     {
+        if (is_null($model->getConnectionName())) {
+            $model->setConnection($this->parent->getConnectionName());
+        }
         return $this->setEmbedded($model->getAttributes());
     }
 

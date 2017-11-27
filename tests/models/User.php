@@ -11,6 +11,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
     use Authenticatable, CanResetPassword;
 
     protected $dates = ['birthday', 'entry.date'];
+    protected $fillable = ['username', 'email', 'birthday', 'msisdn', 'first_name', 'last_name', 'password', 'api_token', 'status', 'type', 'created_at', 'middle_name'];
     protected static $unguarded = true;
 
     public function books()

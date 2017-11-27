@@ -9,3 +9,5 @@ composer.lock
 *.project
 .idea/
 phpunit.xml
+docker-compose.yml
+Dockerfile
