@@ -148,7 +148,7 @@ class BelongsToMany extends EloquentBelongsToMany
         // First we need to attach any of the associated models that are not currently
         // in this joining table. We'll spin through the given IDs, checking to see
         // if they exist in the array of current ones, and if not we will insert.
-        $current = $this->parent->{$this->relatedKey} ?: [];
+        $current = $this->parent->{$this->relatedPivotKey} ?: [];
 
         // See issue #256.
         if ($current instanceof Collection) {
@@ -219,7 +219,7 @@ class BelongsToMany extends EloquentBelongsToMany
             $id = $model->getKey();
 
             // Attach the new parent id to the related model.
-            $model->push($this->relatedKey, $this->parent->getKey(), true);
+            $model->push($this->foreignPivotKey, $this->parent->getKey(), true);
         } else {
             if ($id instanceof Collection) {
                 $id = $id->modelKeys();
@@ -234,7 +234,7 @@ class BelongsToMany extends EloquentBelongsToMany
         }
 
         // Attach the new ids to the parent model.
-        $this->parent->push($this->relatedKey, (array) $id, true);
+        $this->parent->push($this->relatedPivotKey, (array) $id, true);
 
         if ($touch) {
             $this->touchIfTouching();
@@ -261,7 +261,7 @@ class BelongsToMany extends EloquentBelongsToMany
         $ids = (array) $ids;
 
         // Detach all ids from the parent model.
-        $this->parent->pull($this->relatedKey, $ids);
+        $this->parent->pull($this->relatedPivotKey, $ids);
 
         // Prepare the query to select all related objects.
         if (count($ids) > 0) {
