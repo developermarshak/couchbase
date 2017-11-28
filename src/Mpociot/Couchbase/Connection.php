@@ -50,6 +50,7 @@ class Connection extends \Illuminate\Database\Connection
 
         $auth = new ClassicAuthenticator();
         $auth->cluster($config["user"], $config["password"]);
+        $this->connection->authenticate($auth);
 
         // Select database
         $this->bucketname = $config['bucket'];
@@ -87,6 +88,16 @@ class Connection extends \Illuminate\Database\Connection
         }
 
         return $bucketName;
+    }
+
+    /**
+     * Get the used bucket.
+     *
+     * @return \Couchbase\Bucket
+     */
+    public function getBucket()
+    {
+        return $this->bucket;
     }
 
     /**
