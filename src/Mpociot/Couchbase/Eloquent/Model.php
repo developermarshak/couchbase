@@ -237,6 +237,8 @@ abstract class Model extends BaseModel
      *
      * @param  string  $key
      * @param  mixed   $value
+     *
+     * @return $this|void
      */
     public function setAttribute($key, $value)
     {
@@ -370,6 +372,9 @@ abstract class Model extends BaseModel
     protected function pushAttributeValues($column, array $values, $unique = false)
     {
         $current = $this->getAttributeFromArray($column) ?: [];
+        if (!is_array($current)) {
+            $current = [$current];
+        }
 
         foreach ($values as $value) {
             // Don't add duplicate values when we only want unique values.

@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 use Mpociot\Couchbase\Eloquent\Model;
 use Mpociot\Couchbase\Connection as CouchbaseConnection;
 use Illuminate\Database\Connection as IlluminateConnection;
+use Mpociot\Couchbase\Listeners\MigrateListener;
 
 class CouchbaseServiceProvider extends ServiceProvider
 {
@@ -24,8 +25,8 @@ class CouchbaseServiceProvider extends ServiceProvider
     {
         // Add database driver.
         $this->app->singleton('couchbase.connection', function($app){
-            $connectionName = config('database.connections.couchbase');
-            return new CouchbaseConnection($connectionName);
+            $config = config('database.connections.couchbase');
+            return new CouchbaseConnection($config);
         });
 
         IlluminateConnection::resolverFor('couchbase', function ($config) {
@@ -37,5 +38,8 @@ class CouchbaseServiceProvider extends ServiceProvider
                 return app('couchbase.connection');
             });
         });
+
+        //Add migrate listeners
+        $this->app['events']->listen(["\Illuminate\Console\Events\CommandStarting"], MigrateListener::class);
     }
 }

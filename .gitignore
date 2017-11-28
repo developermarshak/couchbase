@@ -8,3 +8,6 @@ composer.lock
 *.sublime-workspace
 *.project
 .idea/
+phpunit.xml
+docker-compose.yml
+Dockerfile

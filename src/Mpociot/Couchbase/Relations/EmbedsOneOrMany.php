@@ -56,6 +56,20 @@ abstract class EmbedsOneOrMany extends Relation
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function get($columns = ['*'])
+    {
+        $results = $this->getResults();
+
+        if ($results instanceof Collection && !in_array($columns, ['*', ['*']])) {
+            return $results->only($columns);
+        }
+
+        return $results;
+    }
+
+    /**
      * Set the base constraints on the relation query.
      */
     public function addConstraints()
@@ -94,16 +108,6 @@ abstract class EmbedsOneOrMany extends Relation
         }
 
         return $models;
-    }
-
-    /**
-     * Shorthand to get the results of the relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function get()
-    {
-        return $this->getResults();
     }
 
     /**
@@ -155,7 +159,23 @@ abstract class EmbedsOneOrMany extends Relation
         // Here we will set the raw attributes to avoid hitting the "fill" method so
         // that we do not have to worry about a mass accessor rules blocking sets
         // on the models. Otherwise, some of these attributes will not get set.
-        $instance = $this->related->newInstance($attributes);
+
+        if (isset($attributes[$this->related->getKeyName()])) {
+            $relation = $this->parent->{$this->relation};
+
+            if ($relation instanceof Collection) {
+                foreach ($relation as $item) {
+                    if ($item->{$this->related->getKeyName()} === $attributes[$this->related->getKeyName()]) {
+                        $instance = $item;
+                        $instance->fill($attributes);
+                    }
+                }
+            }
+        }
+
+        if (!isset($instance)) {
+            $instance = $this->related->newInstance($attributes, isset($attributes['_id']));
+        }
 
         $instance->setParentRelation($this);
 
@@ -268,7 +288,9 @@ abstract class EmbedsOneOrMany extends Relation
         $models = [];
 
         foreach ($records as $attributes) {
-            $models[] = $this->toModel($attributes);
+            $model = $this->toModel($attributes);
+            $model->setConnection($this->parent->getConnectionName());
+            $models[] = $model;
         }
 
         if (count($models) > 0) {
