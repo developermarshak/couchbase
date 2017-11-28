@@ -237,6 +237,8 @@ abstract class Model extends BaseModel
      *
      * @param  string  $key
      * @param  mixed   $value
+     *
+     * @return $this|void
      */
     public function setAttribute($key, $value)
     {

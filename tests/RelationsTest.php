@@ -285,6 +285,7 @@ class RelationsTest extends TestCase
      */
     public function testBelongsToManyAttachesExistingModels()
     {
+        /** @var User $user */
         $user = User::create(['name' => 'John Doe', 'client_ids' => ['1234523']]);
 
         $clients = [
@@ -403,7 +404,7 @@ class RelationsTest extends TestCase
      */
     public function testBelongsToManyCustom()
     {
-        /** @var \User $user */
+        /** @var \User|\Mpociot\Couchbase\Query\Builder $user */
         $user = User::create(['name' => 'John Doe']);
         $group = $user->groups()->create(['name' => 'Admins']);
 
