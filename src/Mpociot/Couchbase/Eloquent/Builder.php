@@ -5,8 +5,8 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Pagination\Paginator;
-use Mpociot\Couchbase\Connection;
 use Mpociot\Couchbase\Query\Builder as QueryBuilder;
+use \Illuminate\Database\Eloquent\Model;
 
 class Builder extends EloquentBuilder
 {
@@ -346,5 +346,22 @@ class Builder extends EloquentBuilder
         }
 
         return $results;
+    }
+
+    /**
+     * Set a model instance for the model being queried.
+     *
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @return $this
+     */
+    public function setModel(Model $model)
+    {
+        $this->model = $model;
+
+        $this->query->from($model->getTable());
+
+        $this->query->setUuidEnable($model->uuid);
+
+        return $this;
     }
 }

@@ -40,10 +40,12 @@ class EmbedsMany extends EmbedsOneOrMany
      */
     public function performInsert(Model $model)
     {
+        $uuidEnable = isset($model->uuid)? $model->uuid : false;
+
         // Generate a new key if needed.
 
         if ($model->getKeyName() == '_id' and ! $model->getKey()) {
-            $model->setAttribute('_id', Helper::getUniqueId($model->{Helper::TYPE_NAME}));
+            $model->setAttribute('_id', Helper::getUniqueId($model->{Helper::TYPE_NAME}), $uuidEnable);
         }
         // For deeply nested documents, let the parent handle the changes.
         if ($this->isNested()) {
@@ -244,9 +246,11 @@ class EmbedsMany extends EmbedsOneOrMany
      */
     protected function associateNew($model)
     {
+        $uuidEnable = isset($model->uuid)? $model->uuid : false;
+
         // Create a new key if needed.
         if (! $model->getAttribute('_id')) {
-            $model->setAttribute('_id', Helper::getUniqueId($model->{Helper::TYPE_NAME}));
+            $model->setAttribute('_id', Helper::getUniqueId($model->{Helper::TYPE_NAME}, $uuidEnable));
         }
 
         if (!$model->getConnectionName()) {

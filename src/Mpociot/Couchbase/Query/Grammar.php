@@ -338,7 +338,8 @@ class Grammar extends BaseGrammar
         $table = $this->wrapTable($query->from);
         // use-keys-clause:
         if (is_null($query->keys)) {
-            $query->useKeys(Helper::getUniqueId($values[Helper::TYPE_NAME]));
+            $uuidEnable = isset($query->uuid)? $query->uuid : false;
+            $query->useKeys(Helper::getUniqueId($values[Helper::TYPE_NAME], $uuidEnable));
         }
         // use-keys-clause:
         $keyClause = is_null($query->keys) ? null : $this->compileKeys($query);

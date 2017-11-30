@@ -9,5 +9,8 @@ composer.lock
 *.project
 .idea/
 phpunit.xml
+etc/
+.docker/
+docker-compose.override.yml
 docker-compose.yml
 Dockerfile
