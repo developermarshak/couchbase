@@ -60,6 +60,13 @@ class Builder extends BaseBuilder
     ];
 
     /**
+     * If enable set uuid as unique identifier in record.
+     * If disable set uniqid as unique identifier in record.
+     * @var bool
+     */
+    protected $uuid = false;
+
+    /**
      * Operator conversion.
      *
      * @var array
@@ -103,6 +110,15 @@ class Builder extends BaseBuilder
         $this->processor = $processor;
         $this->useCollections = $this->shouldUseCollections();
         $this->returning([$this->connection->getBucketName().'.*']);
+    }
+
+    /**
+     * @param bool $enable
+     * @return Builder
+     */
+    public function setUuidEnable($enable = true){
+        $this->uuid = $enable;
+        return $this;
     }
 
     /**
@@ -392,13 +408,13 @@ class Builder extends BaseBuilder
         }
 
         if (is_null($this->keys)) {
-            $this->useKeys(Helper::getUniqueId($this->type));
+            $this->useKeys(Helper::getUniqueId($this->type, $this->uuid));
         }
 
         if ($batch){
             foreach ($values as &$value) {
                 $value[Helper::TYPE_NAME] = $this->type;
-                $key = Helper::getUniqueId($this->type);
+                $key = Helper::getUniqueId($this->type, $this->uuid);
                 $result = $this->connection->getCouchbaseBucket()->upsert($key, $value);
             }
         } else {

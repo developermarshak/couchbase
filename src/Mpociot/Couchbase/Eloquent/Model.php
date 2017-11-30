@@ -33,6 +33,14 @@ abstract class Model extends BaseModel
     protected $parentRelation;
 
     /**
+     * If enable set uuid as unique identifier in record.
+     * If disable set uniqid as unique identifier in record.
+     * @var bool
+     */
+
+    public $uuid = false;
+
+    /**
      * Custom accessor for the model's id.
      *
      * @param  mixed  $value

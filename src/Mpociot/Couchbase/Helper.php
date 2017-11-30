@@ -13,8 +13,13 @@ class Helper
 {
     const TYPE_NAME = 'eloquent_type';
 
-    public static function getUniqueId($praefix = null)
+    public static function getUniqueId($praefix = null, $uuid = false)
     {
-        return (($praefix !== null) ? $praefix.'::' : '').uniqid();
+        if($uuid){
+            return (($praefix !== null) ? $praefix.'::' : '').uuid_create();
+        }
+        else{
+            return (($praefix !== null) ? $praefix.'::' : '').uniqid();
+        }
     }
 }
