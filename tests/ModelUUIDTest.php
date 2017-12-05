@@ -10,7 +10,7 @@ class ModelUUIDTest extends TestCase
 {
     const COLLECTION_NAME = "user_u_u_i_ds";
 
-    const UUID_REGEQ = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
+    const UUID_REGEQ = "/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/";
 
     public function tearDown()
     {
@@ -137,6 +137,6 @@ class ModelUUIDTest extends TestCase
 
         $this->assertNotEquals(0, strlen($id));
 
-        $this->assertRegExp("/".$collectionName."::".static::UUID_REGEQ."/", $id);
+        $this->assertRegExp(static::UUID_REGEQ, $id);
     }
 }

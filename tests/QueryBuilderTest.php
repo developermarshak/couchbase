@@ -77,6 +77,7 @@
             $this->assertTrue(is_string($id));
             $id = DB::table('users')->useKeys('foobar')->insertGetId(['name' => 'John Doe']);
             $this->assertSame('foobar', $id);
+
         }
     
         /**
@@ -109,9 +110,9 @@
         {
             $id = 'my_id';
             DB::table('users')->useKeys($id)->insert(['name' => 'John Doe']);
-    
             $user = DB::table('users')->find($id);
             $this->assertEquals('John Doe', $user['name']);
+
         }
     
         /**
@@ -302,6 +303,7 @@
     
             $list = DB::table('items')->pluck('name', '_id')->toArray();
             $this->assertEquals(4, count($list));
+
             $this->assertEquals(18, strlen(key($list)));
         }
     

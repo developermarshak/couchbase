@@ -160,7 +160,8 @@ class ModelTest extends TestCase
         $user->age = 35;
         $user->save();
 
-        $check = User::find($user->_id);
+        $id = $user->_id;
+        $check = User::find($id);
 
         $this->assertInstanceOf('Mpociot\Couchbase\Eloquent\Model', $check);
         $this->assertEquals(true, $check->exists);

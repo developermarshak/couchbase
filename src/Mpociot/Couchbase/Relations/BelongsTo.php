@@ -29,4 +29,32 @@ class BelongsTo extends \Illuminate\Database\Eloquent\Relations\BelongsTo
 
         $this->query->whereIn($key, $this->getEagerModelKeys($models));
     }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getEagerModelKeys(array $models)
+    {
+        $keys = [];
+
+        // First we need to gather all of the keys from the parent models so we know what
+        // to query for via the eager loading query. We will add them to an array then
+        // execute a "where in" statement to gather up all of those related records.
+        foreach ($models as $model) {
+            if (! is_null($value = $model->{$this->foreignKey})) {
+                $keys[] = $this->related->getCollectionName()."::".$value;
+            }
+        }
+
+        // If there are no keys that were not null we will just return an array with null
+        // so this query wont fail plus returns zero results, which should be what the
+        // developer expects to happen in this situation. Otherwise we'll sort them.
+        if (count($keys) === 0) {
+            return [null];
+        }
+
+        sort($keys);
+
+        return array_values(array_unique($keys));
+    }
 }

@@ -31,6 +31,12 @@ class MorphTo extends EloquentMorphTo
 
         $query = $instance->newQuery();
 
-        return $query->whereIn($key, $this->gatherKeysByType($type))->get();
+        $ids = $this->gatherKeysByType($type);
+
+        foreach ($ids as $index=>$id){
+            $ids[$index] = $instance->getCollectionName()."::".$id;
+        }
+
+        return $query->whereIn($key, $ids)->get();
     }
 }

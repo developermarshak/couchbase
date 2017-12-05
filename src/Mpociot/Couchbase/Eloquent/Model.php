@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Mpociot\Couchbase\Helper;
 use Mpociot\Couchbase\Query\Builder as QueryBuilder;
 use Mpociot\Couchbase\Relations\EmbedsMany;
 use Mpociot\Couchbase\Relations\EmbedsOne;
@@ -488,14 +489,18 @@ abstract class Model extends BaseModel
         // type value or get this total count of records deleted for logging, etc.
         $count = 0;
 
-        $ids = is_array($ids) ? $ids : func_get_args();
-
         $instance = new static;
 
         // We will actually pull the models from the database table and call delete on
         // each of them individually so that their events get fired properly with a
         // correct set of attributes in case the developers wants to check these.
         $key = $instance->getKeyName();
+
+        $ids = is_array($ids) ? $ids : func_get_args();
+
+        foreach ($ids as $index => $id){
+            $ids[$index] = Helper::getIdWithCollection($instance->getCollectionName(), $id);
+        }
 
         foreach ($instance->whereIn($key, $ids)->get() as $model) {
             if ($model->delete()) {

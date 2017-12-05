@@ -13,13 +13,21 @@ class Helper
 {
     const TYPE_NAME = 'eloquent_type';
 
-    public static function getUniqueId($praefix = null, $uuid = false)
+    public static function getUniqueId( $uuid = false)
     {
         if($uuid){
-            return (($praefix !== null) ? $praefix.'::' : '').uuid_create();
+            return uuid_create();
         }
         else{
-            return (($praefix !== null) ? $praefix.'::' : '').uniqid();
+            return uniqid();
         }
+    }
+
+    public static function getIdWithoutCollection($collection, $id){
+        return preg_replace("/^".$collection."::/","", $id);
+    }
+
+    public static function getIdWithCollection($collection, $id){
+        return $collection."::".$id;
     }
 }
