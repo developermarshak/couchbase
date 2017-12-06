@@ -204,10 +204,6 @@ abstract class Model extends BaseModel
             return;
         }
 
-        if($key === $this->primaryKey && $key !== '_id') {
-            $key = '_id';
-        }
-
         // Dot notation support.
         if (str_contains($key, '.') and array_has($this->attributes, $key)) {
             return $this->getAttributeValue($key);
@@ -251,9 +247,6 @@ abstract class Model extends BaseModel
      */
     public function setAttribute($key, $value)
     {
-        if($key === $this->primaryKey && $key !== '_id') {
-            $key = '_id';
-        }
 
         // Support keys in dot notation.
         if (str_contains($key, '.')) {
