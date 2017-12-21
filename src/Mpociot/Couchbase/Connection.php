@@ -2,6 +2,7 @@
 
 use Couchbase\ClassicAuthenticator;
 use Couchbase\Cluster;
+use Couchbase\PasswordAuthenticator;
 use CouchbaseBucket;
 use CouchbaseCluster;
 use CouchbaseN1qlQuery;
@@ -48,8 +49,8 @@ class Connection extends \Illuminate\Database\Connection
 
         $this->connection = new Cluster($dsn);
 
-        $auth = new ClassicAuthenticator();
-        $auth->cluster($config["user"], $config["password"]);
+        $auth = new PasswordAuthenticator();
+        $auth->username($config["user"])->password($config["password"]);
         $this->connection->authenticate($auth);
 
         // Select database

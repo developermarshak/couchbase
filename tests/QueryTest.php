@@ -63,7 +63,7 @@ class QueryTest extends TestCase
     public function testWhereNotIn()
     {
         $users = User::whereNotIn('age', [13, 23, 37, 33])->get();
-        $this->assertEquals(4, count($users));
+        $this->assertEquals(3, count($users)); //In couchbase 4.5, expected: 4 (with null age user)
     }
 
     public function testBetween()
